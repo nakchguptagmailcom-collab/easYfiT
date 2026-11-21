@@ -1,0 +1,301 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1769e8">
+<title>EASYFIT — Your Fitness Platform</title>
+<style>
+:root{
+ --blue:#1769e8;--blue2:#eaf2ff;--dark:#14233d;
+ --muted:#718096;--bg:#f5f8fd;--white:#fff;
+ --green:#16a36a;--border:#e6ebf2;
+ --shadow:0 5px 22px rgba(20,50,100,.07);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--dark);
+ font-family:Arial,Helvetica,sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.app{max-width:1250px;margin:auto;min-height:100vh}
+header{height:70px;background:white;display:flex;align-items:center;
+ justify-content:space-between;padding:0 24px;border-bottom:1px solid var(--border);
+ position:sticky;top:0;z-index:10}
+.logo{font-size:25px;font-weight:900;color:var(--blue);letter-spacing:-1px}
+.logo small{display:block;font-size:10px;color:var(--muted);letter-spacing:2px}
+.header-right{display:flex;gap:10px;align-items:center}
+.pill{border:1px solid var(--border);background:white;padding:9px 13px;
+ border-radius:10px;color:var(--dark)}
+.layout{display:grid;grid-template-columns:225px 1fr;min-height:calc(100vh - 70px)}
+.sidebar{background:white;border-right:1px solid var(--border);padding:22px 14px}
+.nav-title{font-size:11px;color:var(--muted);font-weight:bold;
+ margin:14px 10px 9px;letter-spacing:1px}
+.nav{display:flex;align-items:center;gap:12px;width:100%;padding:13px;
+ border:0;background:white;color:#617087;text-align:left;border-radius:11px;
+ margin:3px 0;font-weight:600}
+.nav.active,.nav:hover{background:var(--blue2);color:var(--blue)}
+main{padding:28px;min-width:0}
+.page{display:none}.page.active{display:block}
+h1{font-size:27px;margin:0 0 7px}
+h2{font-size:19px;margin:0 0 15px}
+h3{font-size:16px;margin:0 0 9px}
+.sub{color:var(--muted);font-size:14px;margin-bottom:23px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.card{background:white;border:1px solid var(--border);border-radius:16px;
+ padding:19px;box-shadow:var(--shadow);margin-bottom:17px;min-width:0}
+.stat-label{font-size:13px;color:var(--muted)}
+.stat-value{font-size:27px;font-weight:800;margin:12px 0 5px}
+.stat-icon{font-size:23px}
+.blue{color:var(--blue)}
+.muted{color:var(--muted)}
+.small{font-size:12px;color:var(--muted)}
+.btn{border:0;background:var(--blue);color:white;padding:11px 16px;
+ border-radius:10px;font-weight:700}
+.btn:hover{filter:brightness(.94)}
+.btn.secondary{background:var(--blue2);color:var(--blue)}
+.btn.green{background:var(--green)}
+.btn.danger{background:#fff0f0;color:#d44}
+.btn.smallbtn{padding:8px 11px;font-size:13px}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}
+.field{width:100%;padding:12px;border:1px solid #dce4ef;border-radius:9px;
+ outline:none;background:white;margin:6px 0 13px;color:var(--dark)}
+.field:focus{border-color:var(--blue)}
+label{font-size:13px;font-weight:700}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.progress{height:9px;background:#edf1f7;border-radius:20px;overflow:hidden;margin:12px 0}
+.progress span{height:100%;display:block;background:var(--blue);border-radius:20px}
+.item{display:flex;align-items:center;gap:11px;padding:12px 0;
+ border-bottom:1px solid var(--border)}
+.item:last-child{border:0}
+.item input{width:18px;height:18px;accent-color:var(--blue)}
+.item.done .item-name{text-decoration:line-through;color:#9aa5b5}
+.item-name{font-weight:600;font-size:14px}
+.tag{font-size:11px;padding:5px 8px;background:var(--blue2);
+ color:var(--blue);border-radius:20px}
+.empty{text-align:center;color:var(--muted);padding:25px 5px}
+textarea.field{resize:vertical;min-height:85px}
+.meal{padding:12px 0;border-bottom:1px solid var(--border)}
+.meal:last-child{border:0}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td,th{padding:11px 7px;border-bottom:1px solid var(--border);text-align:left}
+th{color:var(--muted)}
+.chatbox{background:#f7f9fd;border-radius:12px;padding:15px;
+ min-height:150px;margin:12px 0;white-space:pre-wrap;font-size:14px;line-height:1.6}
+.bottomnav{display:none}
+footer{text-align:center;color:#9aa5b5;font-size:12px;padding:25px}
+@media(max-width:850px){
+ .layout{grid-template-columns:1fr}
+ .sidebar{display:none}
+ main{padding:18px 14px 90px}
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .grid2{grid-template-columns:1fr}
+ header{padding:0 15px}
+ .bottomnav{display:flex;position:fixed;bottom:0;left:0;right:0;
+ background:white;border-top:1px solid var(--border);z-index:20;
+ justify-content:space-around;padding:7px 2px calc(7px + env(safe-area-inset-bottom))}
+ .bottomnav button{border:0;background:white;color:#738097;
+ font-size:10px;display:flex;flex-direction:column;align-items:center;
+ gap:4px;padding:5px 7px}
+ .bottomnav button.active{color:var(--blue);font-weight:bold}
+ .bottomnav span{font-size:20px}
+}
+@media(min-width:851px){.bottomnav{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+ <div class="logo">EASYFIT<small>YOUR FITNESS JOURNEY</small></div>
+ <div class="header-right">
+  <span class="small" id="today"></span>
+  <button class="pill" onclick="toggleLang()" id="langBtn">हिन्दी</button>
+ </div>
+</header>
+
+<div class="layout">
+<aside class="sidebar">
+ <div class="nav-title" data-en="MENU" data-hi="मेन्यू">MENU</div>
+ <button class="nav active" data-page="home" onclick="go('home')">🏠 <span data-en="Dashboard" data-hi="डैशबोर्ड">Dashboard</span></button>
+ <button class="nav" data-page="workout" onclick="go('workout')">💪 <span data-en="Workout" data-hi="वर्कआउट">Workout</span></button>
+ <button class="nav" data-page="nutrition" onclick="go('nutrition')">🥗 <span data-en="Nutrition" data-hi="डाइट">Nutrition</span></button>
+ <button class="nav" data-page="wellness" onclick="go('wellness')">🌙 <span data-en="Wellness" data-hi="वेलनेस">Wellness</span></button>
+ <button class="nav" data-page="progress" onclick="go('progress')">📈 <span data-en="Progress" data-hi="प्रोग्रेस">Progress</span></button>
+ <button class="nav" data-page="assistant" onclick="go('assistant')">🤖 <span data-en="Fitness AI" data-hi="फिटनेस AI">Fitness AI</span></button>
+ <div class="nav-title" data-en="YOUR ACCOUNT" data-hi="आपका अकाउंट">YOUR ACCOUNT</div>
+ <button class="nav" onclick="exportData()">📥 <span data-en="Export Data" data-hi="डेटा डाउनलोड">Export Data</span></button>
+</aside>
+
+<main>
+<!-- HOME -->
+<section class="page active" id="home">
+ <h1 data-en="Welcome to EASYFIT 👋" data-hi="EASYFIT में आपका स्वागत है 👋">Welcome to EASYFIT 👋</h1>
+ <p class="sub" data-en="Build better habits. Get stronger every day." data-hi="बेहतर आदतें बनाएं। हर दिन मजबूत बनें।">Build better habits. Get stronger every day.</p>
+ <div class="grid">
+  <div class="card"><div class="stat-icon">💧</div><div class="stat-label" data-en="Water today" data-hi="आज का पानी">Water today</div><div class="stat-value" id="homeWater">0</div><div class="small">Glasses</div></div>
+  <div class="card"><div class="stat-icon">🌙</div><div class="stat-label" data-en="Sleep last logged" data-hi="पिछली नींद">Sleep last logged</div><div class="stat-value" id="homeSleep">--</div><div class="small">Hours</div></div>
+  <div class="card"><div class="stat-icon">🏋️</div><div class="stat-label" data-en="Workout today" data-hi="आज का वर्कआउट">Workout today</div><div class="stat-value" id="homeWorkout">0%</div><div class="small" data-en="Exercises completed" data-hi="एक्सरसाइज पूरी">Exercises completed</div></div>
+  <div class="card"><div class="stat-icon">🔥</div><div class="stat-label" data-en="Habits today" data-hi="आज की आदतें">Habits today</div><div class="stat-value" id="homeHabits">0/4</div><div class="small" data-en="Habits completed" data-hi="आदतें पूरी">Habits completed</div></div>
+ </div>
+ <div class="grid2">
+  <div class="card">
+   <div class="row"><h2 data-en="Today's Workout" data-hi="आज का वर्कआउट">Today's Workout</h2><span class="tag">EASYFIT</span></div>
+   <div id="homeExerciseList"></div>
+   <button class="btn secondary" onclick="go('workout')" data-en="View Workout →" data-hi="वर्कआउट देखें →">View Workout →</button>
+  </div>
+  <div class="card">
+   <h2 data-en="Daily Habits" data-hi="रोज की आदतें">Daily Habits</h2>
+   <div id="homeHabitsList"></div>
+   <button class="btn secondary" onclick="go('wellness')" data-en="Track habits →" data-hi="आदतें ट्रैक करें →">Track habits →</button>
+  </div>
+ </div>
+ <div class="card">
+  <h2 data-en="Your fitness reminder" data-hi="आपके लिए फिटनेस रिमाइंडर">Your fitness reminder</h2>
+  <p class="muted" data-en="Consistency matters more than perfection. Train safely, eat balanced meals and give your body time to recover." data-hi="परफेक्शन से ज्यादा निरंतरता जरूरी है। सुरक्षित ट्रेनिंग करें, संतुलित भोजन करें और शरीर को रिकवरी का समय दें।">Consistency matters more than perfection. Train safely, eat balanced meals and give your body time to recover.</p>
+ </div>
+</section>
+
+<!-- WORKOUT -->
+<section class="page" id="workout">
+ <h1 data-en="Workout Planner 💪" data-hi="वर्कआउट प्लानर 💪">Workout Planner 💪</h1>
+ <p class="sub" data-en="Plan your session and track every exercise." data-hi="अपना सेशन प्लान करें और हर एक्सरसाइज ट्रैक करें।">Plan your session and track every exercise.</p>
+ <div class="card">
+  <div class="row"><h2 data-en="Choose muscle group" data-hi="मसल ग्रुप चुनें">Choose muscle group</h2><span class="tag">Exercise Library</span></div>
+  <select class="field" id="muscleSelect" onchange="renderWorkout()">
+   <option value="Chest">Chest</option><option value="Back">Back</option>
+   <option value="Legs">Legs</option><option value="Shoulders">Shoulders</option>
+   <option value="Arms">Arms</option><option value="Core">Core</option>
+   <option value="Full Body">Full Body</option>
+  </select>
+  <div class="row"><h3 id="muscleTitle">Chest</h3><span class="small" id="workoutCount"></span></div>
+  <div id="exerciseList"></div>
+  <div class="actions">
+   <button class="btn green" onclick="startWorkout()" id="startBtn">▶ Start Workout</button>
+   <button class="btn secondary" onclick="resetWorkout()">Reset checks</button>
+  </div>
+  <p id="workoutStatus" class="small"></p>
+ </div>
+ <div class="card">
+  <h2 data-en="Add your own exercise" data-hi="अपनी एक्सरसाइज जोड़ें">Add your own exercise</h2>
+  <label data-en="Exercise name" data-hi="एक्सरसाइज का नाम">Exercise name</label>
+  <input class="field" id="newExercise" placeholder="e.g. Incline Dumbbell Press">
+  <div class="grid2">
+   <div><label>Sets</label><input class="field" id="newSets" type="number" min="1" value="3"></div>
+   <div><label>Reps</label><input class="field" id="newReps" type="number" min="1" value="10"></div>
+  </div>
+  <button class="btn" onclick="addExercise()" data-en="+ Add Exercise" data-hi="+ एक्सरसाइज जोड़ें">+ Add Exercise</button>
+ </div>
+ <div class="card">
+  <h2 data-en="Training guidance" data-hi="ट्रेनिंग गाइड">Training guidance</h2>
+  <p class="muted" data-en="Warm up before lifting. Use controlled form, choose manageable resistance and stop if you feel pain or dizziness. Rest between sets." data-hi="वेट उठाने से पहले वार्मअप करें। सही फॉर्म रखें, अपनी क्षमता के अनुसार वजन चुनें और दर्द या चक्कर आने पर रुकें। सेट के बीच आराम करें।">Warm up before lifting. Use controlled form, choose manageable resistance and stop if you feel pain or dizziness. Rest between sets.</p>
+ </div>
+</section>
+
+<!-- NUTRITION -->
+<section class="page" id="nutrition">
+ <h1 data-en="Nutrition & Diet 🥗" data-hi="न्यूट्रिशन और डाइट 🥗">Nutrition & Diet 🥗</h1>
+ <p class="sub" data-en="Keep a simple food and hydration journal." data-hi="अपने भोजन और पानी का रिकॉर्ड रखें।">Keep a simple food and hydration journal.</p>
+ <div class="grid">
+  <div class="card"><div class="stat-label">💧 Water</div><div class="stat-value" id="waterCount">0</div><div class="small">Glasses today</div><div class="progress"><span id="waterBar" style="width:0%"></span></div><button class="btn smallbtn" onclick="addWater(1)">+ 1 Glass</button> <button class="btn secondary smallbtn" onclick="addWater(-1)">−</button></div>
+  <div class="card"><div class="stat-label">🍽️ Meals</div><div class="stat-value" id="mealCount">0</div><div class="small">Logged today</div></div>
+  <div class="card"><div class="stat-label">🥚 Protein</div><div class="stat-value" id="proteinCount">0g</div><div class="small">Estimated today</div></div>
+  <div class="card"><div class="stat-label">📅 Date</div><div class="stat-value" style="font-size:19px" id="nutritionDate">Today</div><div class="small">Food diary</div></div>
+ </div>
+ <div class="grid2">
+  <div class="card">
+   <h2 data-en="Add a meal" data-hi="भोजन जोड़ें">Add a meal</h2>
+   <label data-en="Meal name / food" data-hi="भोजन का नाम">Meal name / food</label>
+   <input class="field" id="foodName" placeholder="e.g. Dal, rice, eggs">
+   <div class="grid2">
+    <div><label>Meal type</label><select class="field" id="foodType"><option>Breakfast</option><option>Lunch</option><option>Snack</option><option>Dinner</option></select></div>
+    <div><label>Protein (grams)</label><input class="field" id="foodProtein" type="number" min="0" value="0"></div>
+   </div>
+   <button class="btn" onclick="addMeal()">+ Add meal</button>
+  </div>
+  <div class="card">
+   <h2 data-en="Today's food diary" data-hi="आज का भोजन रिकॉर्ड">Today's food diary</h2>
+   <div id="mealList"><div class="empty">No meals added yet.</div></div>
+  </div>
+ </div>
+ <div class="card">
+  <h2 data-en="Nutrition basics" data-hi="न्यूट्रिशन की जरूरी बातें">Nutrition basics</h2>
+  <p class="muted" data-en="Include a variety of foods: vegetables, fruits, grains, protein-rich foods and healthy fats. Your needs depend on age, activity and health. Drink water regularly." data-hi="अपने भोजन में सब्जियां, फल, अनाज, प्रोटीन वाले खाद्य पदार्थ और अच्छे फैट शामिल करें। जरूरतें उम्र, गतिविधि और स्वास्थ्य पर निर्भर करती हैं। नियमित पानी पिएं।">Include a variety of foods: vegetables, fruits, grains, protein-rich foods and healthy fats. Your needs depend on age, activity and health. Drink water regularly.</p>
+ </div>
+</section>
+
+<!-- WELLNESS -->
+<section class="page" id="wellness">
+ <h1 data-en="Wellness & Recovery 🌙" data-hi="वेलनेस और रिकवरी 🌙">Wellness & Recovery 🌙</h1>
+ <p class="sub" data-en="Recovery is part of your fitness journey." data-hi="रिकवरी भी आपकी फिटनेस का हिस्सा है।">Recovery is part of your fitness journey.</p>
+ <div class="grid2">
+  <div class="card">
+   <h2 data-en="Sleep tracker" data-hi="स्लीप ट्रैकर">Sleep tracker</h2>
+   <label data-en="Hours slept" data-hi="कितने घंटे सोए">Hours slept</label>
+   <input class="field" id="sleepHours" type="number" min="0" max="24" step=".5" placeholder="e.g. 8">
+   <label data-en="Sleep quality" data-hi="नींद की गुणवत्ता">Sleep quality</label>
+   <select class="field" id="sleepQuality"><option>Good</option><option>Average</option><option>Poor</option></select>
+   <button class="btn" onclick="saveSleep()" data-en="Save sleep" data-hi="नींद सेव करें">Save sleep</button>
+   <div id="sleepHistory" class="small" style="margin-top:15px"></div>
+  </div>
+  <div class="card">
+   <h2 data-en="Daily habits" data-hi="रोज की आदतें">Daily habits</h2>
+   <div id="habitList"></div>
+   <p class="small" data-en="Tick a habit when you complete it." data-hi="आदत पूरी होने पर टिक करें।">Tick a habit when you complete it.</p>
+  </div>
+ </div>
+ <div class="card">
+  <h2 data-en="Recovery tips" data-hi="रिकवरी टिप्स">Recovery tips</h2>
+  <ul class="muted" style="line-height:2">
+   <li data-en="Take rest days when needed." data-hi="जरूरत पड़ने पर आराम का दिन लें।">Take rest days when needed.</li>
+   <li data-en="Keep a regular sleep routine." data-hi="सोने-जागने का समय नियमित रखें।">Keep a regular sleep routine.</li>
+   <li data-en="Use gentle movement and mobility work." data-hi="हल्की गतिविधि और मोबिलिटी करें।">Use gentle movement and mobility work.</li>
+   <li data-en="Do not ignore persistent pain." data-hi="लगातार दर्द को नजरअंदाज न करें।">Do not ignore persistent pain.</li>
+  </ul>
+ </div>
+</section>
+
+<!-- PROGRESS -->
+<section class="page" id="progress">
+ <h1 data-en="Your Progress 📈" data-hi="आपकी प्रोग्रेस 📈">Your Progress 📈</h1>
+ <p class="sub" data-en="Record your training and celebrate consistency." data-hi="अपनी ट्रेनिंग रिकॉर्ड करें और निरंतरता बनाए रखें।">Record your training and celebrate consistency.</p>
+ <div class="grid">
+  <div class="card"><div class="stat-label">📋 Records</div><div class="stat-value" id="recordCount">0</div><div class="small">Entries saved</div></div>
+  <div class="card"><div class="stat-label">🏋️ Workouts</div><div class="stat-value" id="workoutTotal">0</div><div class="small">Sessions started</div></div>
+  <div class="card"><div class="stat-label">💧 Water</div><div class="stat-value" id="waterTotal">0</div><div class="small">Glasses today</div></div>
+  <div class="card"><div class="stat-label">🌙 Sleep</div><div class="stat-value" id="sleepTotal">--</div><div class="small">Latest hours</div></div>
+ </div>
+ <div class="card">
+  <h2 data-en="Add progress record" data-hi="प्रोग्रेस रिकॉर्ड जोड़ें">Add progress record</h2>
+  <label data-en="Body weight (kg) — optional" data-hi="वजन (किलो) — वैकल्पिक">Body weight (kg) — optional</label>
+  <input class="field" id="recordWeight" type="number" min="0" step=".1" placeholder="e.g. 60">
+  <label data-en="Strength / achievement / notes" data-hi="स्ट्रेंथ / उपलब्धि / नोट्स">Strength / achievement / notes</label>
+  <textarea class="field" id="recordNote" placeholder="e.g. Improved squat technique"></textarea>
+  <button class="btn" onclick="addRecord()" data-en="Save progress" data-hi="प्रोग्रेस सेव करें">Save progress</button>
+ </div>
+ <div class="card">
+  <h2 data-en="Progress history" data-hi="प्रोग्रेस हिस्ट्री">Progress history</h2>
+  <div id="recordList"><div class="empty">No progress records yet.</div></div>
+ </div>
+</section>
+
+<!-- AI ASSISTANT -->
+<section class="page" id="assistant">
+ <h1 data-en="Fitness Assistant 🤖" data-hi="फिटनेस असिस्टेंट 🤖">Fitness Assistant 🤖</h1>
+ <p class="sub" data-en="Ask general fitness and workout questions." data-hi="फिटनेस और वर्कआउट से जुड़े सामान्य सवाल पूछें।">Ask general fitness and workout questions.</p>
+ <div class="card">
+  <div class="row"><h2 data-en="Ask EASYFIT" data-hi="EASYFIT से पूछें">Ask EASYFIT</h2><span class="tag">DEMO AI</span></div>
+  <p class="small" data-en="This is a basic offline demo assistant, not a connected AI service yet." data-hi="यह अभी एक बेसिक ऑफलाइन डेमो असिस्टेंट है, असली AI सेवा से जुड़ा नहीं है।">This is a basic offline demo assistant, not a connected AI service yet.</p>
+  <div class="chatbox" id="chatAnswer">Hello! Ask me about workouts, recovery, exercise form or balanced nutrition.</div>
+  <label data-en="Your question" data-hi="आपका सवाल">Your question</label>
+  <textarea class="field" id="question" placeholder="How do I plan a beginner workout?"></textarea>
+  <button class="btn" onclick="askAssistant()" data-en="Ask question" data-hi="सवाल पूछें">Ask question</button>
+  <div class="actions">
+   <button class="btn secondary smallbtn" onclick="quickQuestion('How should I warm up?')">Warm-up</button>
+   <button class="btn secondary smallbtn" onclick="quickQuestion('How can I improve recovery?')">Recovery</button>
+   <button class="btn secondary smallbtn" onclick="quickQuestion('What is progressive overload?')">Progressive overload</button>
+  </div>
+ </div>
+ <div class="card">
+  <h2 data-en="Important" data-hi="जरूरी बात">Important</h2>
+  <p class="muted" data-en="For injuries, medical conditions, supplements or personalized nutrition, consult a qualified professional. Never train through pain." data-hi="चोट, बीमारी, सप्लीमेंट या व्यक्तिगत डाइट के लिए योग्य विशेषज्ञ से सलाह लें। दर्द में ट्रेनिंग न करें।">For injuries, medical conditions, supplements or personalized nutrition, consult a qualified professional. Never t
